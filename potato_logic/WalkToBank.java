@@ -1,5 +1,9 @@
 package scripts.potato_picker.logic;
 
+import org.tribot.api.General;
+import org.tribot.api.Timing;
+import org.tribot.api.types.generic.Condition;
+import org.tribot.api2007.Banking;
 import org.tribot.api2007.Inventory;
 import org.tribot.api2007.Player;
 
@@ -22,6 +26,16 @@ public class WalkToBank implements Task {
 	@Override
 	public void execute() {
 		WebWalker.walkToBank();
+		Timing.waitCondition(new Condition() {
+			@Override
+			public boolean active() {
+				General.sleep(100,200);
+				if (Banking.isInBank()){
+					return true;
+				}
+				return false;
+			}
+		}, General.random(3000, 4000));
 	}
 
 	@Override
