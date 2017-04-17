@@ -41,11 +41,11 @@ public class PickPotato implements Task {
 					final long t = System.currentTimeMillis();
 					while (Inventory.getAll().length == inventoryCount && (System.currentTimeMillis() - t) < timeOut) {
 						AntiBan.timedActions();
+						General.sleep(100,200);
 					}
 					if (Inventory.getAll().length > inventoryCount) {
 						PotatoPicker.incrementPotato(); // We picked a potato
 					}
-					General.sleep(100, 300);
 				} else {
 					General.sleep(200, 600);
 				}
