@@ -18,6 +18,7 @@ public class PickPotato implements Task {
 
 	private static final int POTATO_PLANT_ID = 312;
 	public static final RSArea potatoArea = new RSArea(new RSTile(3138, 3268, 0), new RSTile(3157, 3290, 0));
+
 	@Override
 	public int priority() {
 		return 1;
@@ -30,19 +31,21 @@ public class PickPotato implements Task {
 
 	@Override
 	public void execute() {
-		Integer inventoryCount = Inventory.getAll().length;
+		final Integer inventoryCount = Inventory.getAll().length;
 		final RSObject[] potatoes = Objects.findNearest(20, POTATO_PLANT_ID);
 		if (potatoes.length > 0) {
 			final RSObject potato = AntiBan.selectNextTarget(potatoes);
 			if (potato.isOnScreen()) {
 				if (AccurateMouse.click(potato, "Pick")) {
-					long timeOut = General.random(3000, 4000);
-					long t = System.currentTimeMillis();
-					while (Inventory.getAll().length == inventoryCount && (System.currentTimeMillis()-t)<timeOut){
+					final long timeOut = General.random(3000, 4000);
+					final long t = System.currentTimeMillis();
+					while (Inventory.getAll().length == inventoryCount && (System.currentTimeMillis() - t) < timeOut) {
 						AntiBan.timedActions();
 					}
-					PotatoPicker.incrementPotato();
-					General.sleep(100,300);
+					if (Inventory.getAll().length > inventoryCount) {
+						PotatoPicker.incrementPotato(); // We picked a potato
+					}
+					General.sleep(100, 300);
 				} else {
 					General.sleep(200, 600);
 				}
@@ -51,10 +54,10 @@ public class PickPotato implements Task {
 			}
 		}
 	}
-	
+
 	@Override
 	public String action() {
 		return "Picking potatoes...";
 	}
-	
+
 }
