@@ -12,12 +12,6 @@ import scripts.webwalker_logic.WebWalker;
 
 public class WalkToPotato implements Task {
 
-	private RSTile destinationPotato;
-
-	private void generateRandomDestinationTile() {
-		destinationPotato = new RSTile(General.random(3144, 3148), General.random(3284,3288), 0);
-	}
-
 	@Override
 	public int priority() {
 		return 2;
@@ -30,7 +24,7 @@ public class WalkToPotato implements Task {
 
 	@Override
 	public void execute() {
-		generateRandomDestinationTile();
+		final RSTile destinationPotato = new RSTile(General.random(3144, 3148), General.random(3284,3288), 0);
 		WebWalker.walkTo(destinationPotato);
 		Timing.waitCondition(new Condition() {
 			@Override
